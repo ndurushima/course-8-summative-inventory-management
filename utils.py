@@ -1,25 +1,18 @@
-from typing import Dict, Any, Optional
-from uuid import uuid4
-
-DB: Dict[str, Dict[str, Any]] = {}
-
-def create_item(name: str, category: str, price: float) -> Dict[str, Any]:
-    item_id = str(uuid4())
-    item = {
-        "id": item_id,
-        "name": name,
-        "category": category,
-        "price": float(price)
-    }
-    DB[item_id] = item
-    return item
+from flask import jsonify, request
 
 
-def list_items(category: Optional[str] = None):
+def json_required(*keys):
+    data = request.get_json(silent=True) or {}
+    missing_keys = [key for key in keys if key not in data]
+    if missing_keys:
+        return None, jsonify({"error": "Missing required fields"})
+    return data, None, None
 
-    # Fetch Items from the databse, optionally filtering by category
+def ok(payload, status=200):
+    return jsonify(payload), status
 
-    items = list(DB.values())
-    if category:
-        items = [i for i in items if i["category"].lower() == category.lower()]
-    return items
+def not_found(message="Resource not found"):
+    return jsonify({"error": message}), 400
+
+def bad_request(message="Bad Request"):
+    return jsonify({"error": message}), 400
