@@ -9,6 +9,5 @@ def cli():
     subparsers = parser.add_subparsers()
 
 
-
 if __name__ == "__main__":
     cli()
