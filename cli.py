@@ -8,7 +8,7 @@ def cli():
     parser = argparse.ArgumentParser(description="Inventory Management")
     subparsers = parser.add_subparsers()
 
-
+#
 
 if __name__ == "__main__":
     cli()
