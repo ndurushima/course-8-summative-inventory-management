@@ -69,9 +69,8 @@ def lookup_product(barcode):
         simplified = {
             "barcode": barcode,
             "name": product.get("product_name"),
-            "brands": product.get("brands"),
             "categories": product.get("categories"),
-            "nutriscore": product.get("nutriscore_grade"),
+            "price": product.get("price")
         }
 
         return ok(simplified)
