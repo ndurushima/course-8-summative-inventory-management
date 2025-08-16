@@ -5,7 +5,6 @@ import requests
 
 app = Flask(__name__)
 
-
 @app.post("/items")
 def create_item_route():
     data, err, code = json_required("name", "category", "price")
@@ -20,7 +19,6 @@ def create_item_route():
         return ok(item, 201)
     except ValueError as e:
         return bad_request(str(e))
-
 
 @app.get("/items")
 def list_items_route():
