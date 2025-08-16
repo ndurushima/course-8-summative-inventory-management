@@ -12,7 +12,7 @@ def ok(payload, status=200):
     return jsonify(payload), status
 
 def not_found(message="Resource not found"):
-    return jsonify({"error": message}), 400
+    return jsonify({"error": message}), 404
 
 def bad_request(message="Bad Request"):
     return jsonify({"error": message}), 400
