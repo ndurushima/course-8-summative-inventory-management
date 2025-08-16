@@ -62,7 +62,21 @@ def lookup_product(barcode):
             return bad_request("Failed to fetch product details")
 
         data = resp.json()
-        return ok(data)
+
+        if data.get("status") != 1:
+            return not_found("Product not found")
+
+        product = data["product"]
+
+        simplified = {
+            "barcode": barcode,
+            "name": product.get("product_name"),
+            "brands": product.get("brands"),
+            "categories": product.get("categories"),
+            "nutriscore": product.get("nutriscore_grade"),
+        }
+
+        return ok(simplified)
 
     except requests.RequestException:
         return bad_request("Error connecting to external API")
