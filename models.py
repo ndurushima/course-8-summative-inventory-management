@@ -24,3 +24,13 @@ def list_items(category: Optional[str] = None):
 
 def get_items(item_id: str) -> Optional[Dict[str, Any]]:
     return DB.get(item_id)
+
+def update_item(item_id: str, **fields) -> Optional[Dict[str, Any]]:
+    item = DB.get(item_id)
+    if not item:
+        return None
+    name = fields.get("name", item["name"])
+    category = fields.get("category", item["category"])
+    price = fields.get("price", item["price"])
+    item.update({"name": name, "category": category, "price": price})
+    return item
