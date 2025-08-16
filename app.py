@@ -52,5 +52,19 @@ def delete_item_route(item_id):
         return ok({"deleted": item_id})
     return not_found("Item not found")
 
+@app.get("/lookup")
+def lookup_product():
+    barcode = request.args.get("barcode")
+    if not barcode:
+        return bad_request("Provide a barcode")
+    
+    url = f"https://world.openfoodfacts.net/api/v2/product/{barcode}.json"
+    resp = requests.get(url, auth=("off", "off"))
+    if resp.status_code != 200:
+        return bad_request("Failed to fetch product")
+    
+    data = resp.json()
+    return ok(data)
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5555)
