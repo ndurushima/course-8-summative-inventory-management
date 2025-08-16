@@ -34,3 +34,12 @@ def update_item(item_id: str, **fields) -> Optional[Dict[str, Any]]:
     price = fields.get("price", item["price"])
     item.update({"name": name, "category": category, "price": price})
     return item
+
+def delete_item(item_id: str) -> bool:
+    return DB.pop(item_id, None) is not None
+
+def list_items(category: Optional[str] = None):
+    items = list(DB.values())
+    if category:
+        items = [i for i in items if i["category"].lower() == category.lower()]
+    return items
